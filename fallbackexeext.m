@@ -17,21 +17,21 @@ function exesuff=fallbackexeext(exesuffix, exename)
 %
 
 exesuff=exesuffix;
-if(strcmp(exesuff,'.mexa64') & exist([mcpath(exename) exesuff],'file')==0) % fall back to i386 linux
+if(strcmp(exesuff,'.mexa64') & exist([iso2mesh.mcpath(exename) exesuff],'file')==0) % fall back to i386 linux
         exesuff='.mexglx';
 end
-if(strcmp(exesuff,'.mexmaci64') & exist([mcpath(exename) exesuff],'file')==0) % fall back to i386 mac
+if(strcmp(exesuff,'.mexmaci64') & exist([iso2mesh.mcpath(exename) exesuff],'file')==0) % fall back to i386 mac
         exesuff='.mexmaci';
 end
-if(strcmp(exesuff,'.mexmaci') & exist([mcpath(exename) exesuff],'file')==0) % fall back to ppc mac
+if(strcmp(exesuff,'.mexmaci') & exist([iso2mesh.mcpath(exename) exesuff],'file')==0) % fall back to ppc mac
         exesuff='.mexmac';
 end
-if(exist([mcpath(exename) exesuff],'file')==0) % fall back to OS native package
+if(exist([iso2mesh.mcpath(exename) exesuff],'file')==0) % fall back to OS native package
         exesuff='';
 end
 
-if(exist([mcpath(exename) exesuff],'file')==0)
-        if(strcmp(mcpath(exename),'tetgen'))
+if(exist([iso2mesh.mcpath(exename) exesuff],'file')==0)
+        if(strcmp(iso2mesh.mcpath(exename),'tetgen'))
                return;
         end  
         error([ 'The following executable:\n' ...
@@ -39,6 +39,6 @@ if(exist([mcpath(exename) exesuff],'file')==0)
                         'is missing. Please download it from ' ...
                         'https://github.com/fangq/iso2mesh/tree/master/bin/ ' ...
                         'and save it to the above path, then rerun the script.\n' ...
-                ],mcpath(exename),getexeext);
+                ],iso2mesh.mcpath(exename),iso2mesh.getexeext);
 end
 

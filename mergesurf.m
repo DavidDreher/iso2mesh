@@ -36,5 +36,5 @@ end
 for i=1:2:len
    no=varargin{i};
    el=varargin{i+1};
-   [newnode,newelem]=surfboolean(newnode,newelem,'all',no,el);
+   [newnode,newelem]=iso2mesh.surfboolean(newnode,newelem,'all',no,el);
 end

@@ -61,7 +61,7 @@ cy=cy';
 p0=[cx(:,1) cy(:,1) zeros(ndiv,1)];
 p1=[cx(:,2) cy(:,2) len*ones(ndiv,1)];
 pp=[p0;p1];
-no=rotatevec3d(pp,v0)+repmat(c0',size(pp,1),1);
+no=iso2mesh.rotatevec3d(pp,v0)+repmat(c0',size(pp,1),1);
 
 count=1;
 for i=1:ndiv-1
@@ -83,4 +83,4 @@ end
 if(nargin<5)
     maxvol=tsize*tsize*tsize;
 end
-[node,elem,face]=surf2mesh(no,fc,min(no),max(no),1,maxvol,[0 0 1],[],0);
+[node,elem,face]=iso2mesh.surf2mesh(no,fc,min(no),max(no),1,maxvol,[0 0 1],[],0);

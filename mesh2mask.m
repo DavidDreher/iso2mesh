@@ -74,13 +74,13 @@ set(gca,'clim',[1 size(face,1)]);
 
 output_size = round((mx(1:2)-mn(1:2))./df);%Size in pixels
 
-if(isoctavemesh || isempty(getenv('DISPLAY')))
+if(iso2mesh.isoctavemesh || isempty(getenv('DISPLAY')))
     resolution = 300; %Resolution in DPI
     set(gcf,'PaperPositionMode','manual')
     set(gcf,'paperunits','inches','paperposition',[0 0 output_size/resolution]);
-    deletemeshfile(mwpath('post_mesh2mask.png'));
-    print(mwpath('post_mesh2mask.png'),'-dpng',['-r' num2str(resolution)]);
-    mask=imread(mwpath('post_mesh2mask.png'));
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('post_mesh2mask.png'));
+    print(iso2mesh.mwpath('post_mesh2mask.png'),'-dpng',['-r' num2str(resolution)]);
+    mask=imread(iso2mesh.mwpath('post_mesh2mask.png'));
 else
     pos=get(hf,'position');
     pos(3:4)=max(pos(3:4),output_size+20);

@@ -24,7 +24,7 @@ if(fid==-1)
 end
 
 % Check that all the elements are correctly oriented
-elem(:,1:4)=meshreorient(node,elem(:,1:4));
+elem(:,1:4)=iso2mesh.meshreorient(node,elem(:,1:4));
 
 nbNodes = size (node,1);
 reg = unique (elem(:,5));

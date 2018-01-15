@@ -38,10 +38,10 @@ clear xi yi zi;
 % extract a level-set at v=thresh, being a sphere with R=thresh
 % the maximum element size of the surface triangles is tsize*dim
 
-[node,face]=vol2restrictedtri(dist,1,[dim dim dim],dim*dim*dim,30,esize,esize,40000);
+[node,face]=iso2mesh.vol2restrictedtri(dist,1,[dim dim dim],dim*dim*dim,30,esize,esize,40000);
 node=(node-0.5)*0.5;
 
-[node,face]=removeisolatednode(node,face);
+[node,face]=iso2mesh.removeisolatednode(node,face);
 
 node=(node-30)/28;
 r0=sqrt(sum((node.*node)'));
@@ -49,7 +49,7 @@ node=node.*repmat(1./r0(:),1,3);
 
 if(nargout==3)
    if(nargin==1) maxvol=tsize*tsize*tsize; end
-   [node,elem,face]=surf2mesh(node,face,[-1 -1 -1]*1.1,[1 1 1]*1.1,1,maxvol,[],[]);
+   [node,elem,face]=iso2mesh.surf2mesh(node,face,[-1 -1 -1]*1.1,[1 1 1]*1.1,1,maxvol,[],[]);
    elem=elem(:,1:4);
 end
 face=face(:,1:3);

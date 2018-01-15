@@ -24,7 +24,7 @@ function valnew=surfdiffuse(node,tri,val,ddt,iter,type1,opt)
 if(iscell(tri))
 	conn=tri;
 else
-	conn=meshconn(tri,size(node,1));
+	conn=iso2mesh.meshconn(tri,size(node,1));
 end
 valnew=val;
 nn=size(node,1);

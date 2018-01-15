@@ -31,27 +31,27 @@ if(radbound<1)
              '"opt.radbound" correctly for the default meshing method.']);
 end
 
-exesuff=getexeext;
-exesuff=fallbackexeext(exesuff,'cgalsurf');
+exesuff=iso2mesh.getexeext;
+exesuff=iso2mesh.fallbackexeext(exesuff,'cgalsurf');
 
-saveinr(vol,mwpath('pre_extract.inr'));
-deletemeshfile(mwpath('post_extract.off'));
+iso2mesh.saveinr(vol,iso2mesh.mwpath('pre_extract.inr'));
+iso2mesh.deletemeshfile(iso2mesh.mwpath('post_extract.off'));
 
 randseed=hex2dec('623F9A9E'); % "U+623F U+9A9E"
 
-if(~isempty(getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
-	randseed=getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
+if(~isempty(iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
+	randseed=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
 end
 
 initnum=50;
-if(~isempty(getvarfrom({'caller','base'},'ISO2MESH_INITSIZE')))
-        initnum=getvarfrom({'caller','base'},'ISO2MESH_INITSIZE');
+if(~isempty(iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_INITSIZE')))
+        initnum=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_INITSIZE');
 end
 
-system([' "' mcpath('cgalsurf') exesuff '" "' mwpath('pre_extract.inr') ...
+system([' "' iso2mesh.mcpath('cgalsurf') exesuff '" "' iso2mesh.mwpath('pre_extract.inr') ...
     '" ' sprintf('%.16f %.16f %.16f %.16f %.16f %.16f %.16f %.16f %d ',thres,cent,brad,ang,radbound,distbound,maxnode) ...
-    ' "' mwpath('post_extract.off') '" ' sprintf('%.0f %d',randseed,initnum)]);
-[node,elem]=readoff(mwpath('post_extract.off'));
+    ' "' iso2mesh.mwpath('post_extract.off') '" ' sprintf('%.0f %d',randseed,initnum)]);
+[node,elem]=iso2mesh.readoff(iso2mesh.mwpath('post_extract.off'));
 
 % assuming the origin [0 0 0] is located at the lower-bottom corner of the image
 node=node+0.5;

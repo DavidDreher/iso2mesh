@@ -23,10 +23,10 @@ function [node,face,elem]=meshcylinders(c0, v, len, varargin)
 %
 
 len=cumsum(len);
-[ncyl,fcyl]=meshacylinder(c0,c0+v*len(1),varargin{:});
+[ncyl,fcyl]=iso2mesh.meshacylinder(c0,c0+v*len(1),varargin{:});
 
 for i=2:length(len)
-   [ncyl1,fcyl1]=meshacylinder(c0+v*len(i-1),c0+v*len(i),varargin{:});
+   [ncyl1,fcyl1]=iso2mesh.meshacylinder(c0+v*len(i-1),c0+v*len(i),varargin{:});
    fcyl1=cellfun(@(x) {x{1}+size(ncyl,1),x{2}}, fcyl1, 'UniformOutput', false);
    ncyl=[ncyl; ncyl1];
    if(i==1)
@@ -58,4 +58,4 @@ end
 
 centroid=cumsum([0 len(1:end-1)])+len/2;   % define the centroids of each cylinder segment
 seeds=repmat(c0(:)',length(len),1)+repmat(v(:)',length(len),1).*repmat(centroid(:),1,3);
-[node,elem,face]=surf2mesh(no,fc,min(no),max(no),1,maxvol,seeds,[],0);
+[node,elem,face]=iso2mesh.surf2mesh(no,fc,min(no),max(no),1,maxvol,seeds,[],0);

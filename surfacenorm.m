@@ -21,11 +21,11 @@ function snorm=surfacenorm(node,face,varargin)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-opt=varargin2struct(varargin{:});
+opt=iso2mesh.varargin2struct(varargin{:});
 
-snorm=surfplane(node,face);
+snorm=iso2mesh.surfplane(node,face);
 snorm=snorm(:,1:3);
 
-if(getoptkey('Normalize',1,opt))
+if(iso2mesh.getoptkey('Normalize',1,opt))
     snorm=snorm./repmat(sqrt(sum(snorm.*snorm,2)),1,3);
 end

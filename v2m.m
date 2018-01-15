@@ -15,4 +15,4 @@ if(nargin==4)
    method='cgalsurf';
 end
 
-[node,elem,face]=vol2mesh(img,1:size(img,1),1:size(img,2),1:size(img,3),opt,maxvol,1,method,isovalues);
+[node,elem,face]=iso2mesh.vol2mesh(img,1:size(img,1),1:size(img,2),1:size(img,3),opt,maxvol,1,method,isovalues);

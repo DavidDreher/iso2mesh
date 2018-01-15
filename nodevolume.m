@@ -20,7 +20,7 @@ function nodevol=nodevolume(node,elem)
 dim=4;
 if(size(elem,2)==3) dim=3; end
 
-vol=elemvolume(node,elem(:,1:dim));
+vol=iso2mesh.elemvolume(node,elem(:,1:dim));
 
 elemnum=size(elem,1);
 nodenum=size(node,1);

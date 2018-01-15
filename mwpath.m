@@ -22,8 +22,8 @@ function tempfname=mwpath(fname)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-p=getvarfrom({'caller','base'},'ISO2MESH_TEMP');
-session=getvarfrom({'caller','base'},'ISO2MESH_SESSION');
+p=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_TEMP');
+session=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_SESSION');
 persistent uuid
 if isempty(uuid)
     [~, uuid] = fileparts(tempname);
@@ -39,7 +39,7 @@ if(~isempty(username))
 end
 
 if(isempty(p))
-    if(isoctavemesh && tempdir=='\')
+    if(iso2mesh.isoctavemesh && tempdir=='\')
         tempfname=['.'  filesep session fname];
     else
         tdir=tempdir;

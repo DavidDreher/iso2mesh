@@ -33,7 +33,7 @@ end
 u1=u1/norm(u1);
 v1=v1/norm(v1);
 
-[R,s]=rotmat2vec(u1,v1);
+[R,s]=iso2mesh.rotmat2vec(u1,v1);
 newpt=(R*pt'*s)';
 
 if(nargin>3)

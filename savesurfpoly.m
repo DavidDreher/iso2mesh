@@ -33,7 +33,7 @@ if(~iscell(f) && size(f,2)==4)
 end
 
 if(~iscell(f))
-    edges=surfedge(f);
+    edges=iso2mesh.surfedge(f);
 else
     edges=[];
 end
@@ -49,7 +49,7 @@ loopid=[];
 loopvert={};
 loopnum=1;
 if(~isempty(edges))
-    loops=extractloops(edges);
+    loops=iso2mesh.extractloops(edges);
     if(length(loops)<3)
         error('degenerated loops detected');
     end
@@ -62,7 +62,7 @@ if(~isempty(edges))
        end
        oneloop=loops(seg(i)+1:seg(i+1)-1);
        if(oneloop(1)==oneloop(end)) oneloop(end)=[]; end
-       newloops=[newloops nan bbxflatsegment(node,oneloop)];
+       newloops=[newloops nan iso2mesh.bbxflatsegment(node,oneloop)];
     end
     loops=[newloops nan];
 
@@ -214,7 +214,7 @@ if(dobbx || ~isempty(edges))
             for k=1:length(endid)
                 j=endid(k);
                 subloop=loops(seg(j)+1:seg(j+1)-1);
-                fprintf(fp,'%d %.16f %.16f %.16f\n',k,internalpoint(v,subloop)); %mean(v(subloop,:)));
+                fprintf(fp,'%d %.16f %.16f %.16f\n',k,iso2mesh.internalpoint(v,subloop)); %mean(v(subloop,:)));
             end
         end
     end

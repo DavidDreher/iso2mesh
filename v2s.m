@@ -18,18 +18,18 @@ if(nargin==3)
 end
 
 if(strcmp(method,'cgalmesh'))
-   [no,tet,el]=v2m(uint8(img),isovalues,opt,1000,method);
+   [no,tet,el]=iso2mesh.v2m(uint8(img),isovalues,opt,1000,method);
    regions=[];
    fclist=unique(el(:,4));
    len=length(fclist);
    for i=1:len
-       pt=surfinterior(no(:,1:3),el(find(el(:,4)==fclist(i)),1:3));
+       pt=iso2mesh.surfinterior(no(:,1:3),el(find(el(:,4)==fclist(i)),1:3));
        if(~isempty(pt)) regions=[regions;pt]; end
    end
    el=unique(el(:,1:3),'rows');
-   [no,el]=removeisolatednode(no(:,1:3),el(:,1:3));
+   [no,el]=iso2mesh.removeisolatednode(no(:,1:3),el(:,1:3));
    holes=[];
    return;
 end
 
-[no,el,regions,holes]=vol2surf(img,1:size(img,1),1:size(img,2),1:size(img,3),opt,1,method,isovalues);
+[no,el,regions,holes]=iso2mesh.vol2surf(img,1:size(img,1),1:size(img,2),1:size(img,3),opt,1,method,isovalues);

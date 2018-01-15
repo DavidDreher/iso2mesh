@@ -38,9 +38,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % step 1: convert the old surface to a volumetric image
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-img=surf2vol(node,face,p0(1)-dx:dx:p1(1)+dx,p0(2)-dx:dx:p1(2)+dx,p0(3)-dx:dx:p1(3)+dx);
+img=iso2mesh.surf2vol(node,face,p0(1)-dx:dx:p1(1)+dx,p0(2)-dx:dx:p1(2)+dx,p0(3)-dx:dx:p1(3)+dx);
 
-eg=surfedge(face);
+eg=iso2mesh.surfedge(face);
 closesize=0;
 
 if(~isempty(eg) & isstruct(opt))
@@ -53,7 +53,7 @@ end
 % step 2: fill holes in the volumetric binary image
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-img=fillholes3d(img,closesize);
+img=iso2mesh.fillholes3d(img,closesize);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % step 3: convert the filled volume to a new surface
@@ -62,11 +62,11 @@ img=fillholes3d(img,closesize);
 if(isstruct(opt))
    if(isfield(opt,'elemsize'))
       opt.radbound=opt.elemsize/dx;
-      [newno,newfc]=v2s(img,0.5,opt,'cgalsurf');
+      [newno,newfc]=iso2mesh.v2s(img,0.5,opt,'cgalsurf');
    end
 else
   opt=struct('radbound',opt/dx);
-  [newno,newfc]=v2s(img,0.5,opt,'cgalsurf');
+  [newno,newfc]=iso2mesh.v2s(img,0.5,opt,'cgalsurf');
 end
 
 newno(:,1:3)=newno(:,1:3)*dx;

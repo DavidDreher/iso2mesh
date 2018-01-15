@@ -46,8 +46,8 @@ if(~any(vol))
         error('no labeled regions found in the input volume.');
 end
 
-exesuff=getexeext;
-exesuff=fallbackexeext(exesuff,'cgalmesh');
+exesuff=iso2mesh.getexeext;
+exesuff=iso2mesh.fallbackexeext(exesuff,'cgalmesh');
 
 ang=30;
 ssize=6;
@@ -65,13 +65,13 @@ if(isstruct(opt) & length(opt)==1)  % does not support settings for multiple lab
 	if(isfield(opt,'reratio'))    reratio=opt.reratio; end
 end
 
-saveinr(vol,mwpath('pre_cgalmesh.inr'));
-deletemeshfile(mwpath('post_cgalmesh.mesh'));
+iso2mesh.saveinr(vol,iso2mesh.mwpath('pre_cgalmesh.inr'));
+iso2mesh.deletemeshfile(iso2mesh.mwpath('post_cgalmesh.mesh'));
 
 randseed=hex2dec('623F9A9E'); % "U+623F U+9A9E"
 
-if(~isempty(getvarfrom('base','ISO2MESH_RANDSEED')))
-        randseed=getvarfrom('base','ISO2MESH_RANDSEED');
+if(~isempty(iso2mesh.getvarfrom('base','ISO2MESH_RANDSEED')))
+        randseed=iso2mesh.getvarfrom('base','ISO2MESH_RANDSEED');
 end
 
 if(ischar(maxvol))
@@ -79,14 +79,14 @@ if(ischar(maxvol))
 else
     format_maxvol='%f';
 end
-cmd=sprintf(['"%s%s" "%s" "%s" %f %f %f %f ' format_maxvol ' %d'],mcpath('cgalmesh'),exesuff,...
-    mwpath('pre_cgalmesh.inr'),mwpath('post_cgalmesh.mesh'),ang,ssize,...
+cmd=sprintf(['"%s%s" "%s" "%s" %f %f %f %f ' format_maxvol ' %d'],iso2mesh.mcpath('cgalmesh'),exesuff,...
+    iso2mesh.mwpath('pre_cgalmesh.inr'),iso2mesh.mwpath('post_cgalmesh.mesh'),ang,ssize,...
     approx,reratio,maxvol,randseed);
 system(cmd);
-if(~exist(mwpath('post_cgalmesh.mesh'),'file'))
+if(~exist(iso2mesh.mwpath('post_cgalmesh.mesh'),'file'))
     error(['output file was not found, failure was encountered when running command: \n',cmd]);
 end
-[node,elem,face]=readmedit(mwpath('post_cgalmesh.mesh'));
+[node,elem,face]=iso2mesh.readmedit(iso2mesh.mwpath('post_cgalmesh.mesh'));
 
 % if a transformation matrix/offset vector supplied, apply them
 if (isstruct(opt) & length(opt)==1)
@@ -100,7 +100,7 @@ fprintf(1,'node number:\t%d\ntriangles:\t%d\ntetrahedra:\t%d\nregions:\t%d\n',..
 fprintf(1,'surface and volume meshes complete\n');
 
 if(size(node,1)>0)
-    [node,elem,face]=sortmesh(node(1,:),node,elem,1:4,face,1:3);
+    [node,elem,face]=iso2mesh.sortmesh(node(1,:),node,elem,1:4,face,1:3);
 end
 
 node=node+0.5;

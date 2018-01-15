@@ -14,10 +14,10 @@ brain=uint8(brain);
 
 fprintf(1,'meshing the segmented brain (this may take a few minutes) ...\n');
 
-[node,elem,face]=v2m(brain,[],2,100,'cgalmesh');
+[node,elem,face]=iso2mesh.v2m(brain,[],2,100,'cgalmesh');
 
 figure
-hs=plotmesh(node,face,'y>100');
+hs=iso2mesh.plotmesh(node,face,'y>100');
 
 axis equal;
 title('cross-cut view of the generated surface mesh');
@@ -28,25 +28,25 @@ title('cross-cut view of the generated surface mesh');
 fprintf(1,'extracting the right-hemisphere cerebellum white matter surface\n')
 
 LHwhitemat=elem(find(elem(:,5)==5),:);
-wmsurf=volface(LHwhitemat(:,1:4));
+wmsurf=iso2mesh.volface(LHwhitemat(:,1:4));
 
 figure;
-hs=plotmesh(node,wmsurf);
+hs=iso2mesh.plotmesh(node,wmsurf);
 axis equal;
 title('pre-smoothed cerebellum white matter surface');
 
 
 fprintf(1,'performing mesh smoothing on the white matter surface\n')
 
-[no,el]=removeisolatednode(node,wmsurf);
-wmno=sms(no(:,1:3),el,3,0.5);
+[no,el]=iso2mesh.removeisolatednode(node,wmsurf);
+wmno=iso2mesh.sms(no(:,1:3),el,3,0.5);
 
 figure;
-hs=plotmesh(wmno,el);
+hs=iso2mesh.plotmesh(wmno,el);
 axis equal;
 title('smoothed cerebellum white matter surface of the right-hemisphere');
 
 
 fprintf(1,'generate volumetric mesh from the smoothed cerebellum white matter surface \n')
 
-[wmnode,wmelem,wmface]=s2m(wmno(:,1:3),el(:,1:3),1,200);
+[wmnode,wmelem,wmface]=iso2mesh.s2m(wmno(:,1:3),el(:,1:3),1,200);

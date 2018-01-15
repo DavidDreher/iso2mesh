@@ -34,9 +34,9 @@ rngstate = rand ('state');
 
 if(nargin>=2)
   randseed=hex2dec('623F9A9E'); % "U+623F U+9A9E"
-  if(isoctavemesh) randseed=randseed+3; end
-  if(~isempty(getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
-        randseed=getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
+  if(iso2mesh.isoctavemesh) randseed=randseed+3; end
+  if(~isempty(iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
+        randseed=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
   end
   rand('state',randseed);
 
@@ -114,9 +114,9 @@ rand ('state',rngstate);
 
 %-------------------------------------------------------------------------
 function hh=plotasurf(node,face,varargin)
-isoct=isoctavemesh;
+isoct=iso2mesh.isoctavemesh;
 if(size(face,2)<=2)
-    h=plotedges(node,face,varargin{:});
+    h=iso2mesh.plotedges(node,face,varargin{:});
 else
   if(size(node,2)==4)
 	if(isoct && ~exist('trisurf','file'))

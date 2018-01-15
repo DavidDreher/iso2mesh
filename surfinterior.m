@@ -26,10 +26,10 @@ pt=[];
 len=size(face,1);
 for i=1:len
    p0=mean(node(face(i,1:3),:));
-   plane=surfplane(node,face(i,:));
+   plane=iso2mesh.surfplane(node,face(i,:));
    v0=plane(1:3);
 
-   [t,u,v]=raytrace(p0,v0,node,face(:,1:3));
+   [t,u,v]=iso2mesh.raytrace(p0,v0,node,face(:,1:3));
 
    idx=find(u>=0 & v>=0 & u+v<=1.0 & ~isinf(t));
    [ts, uidx]=unique(sort(t(idx)));

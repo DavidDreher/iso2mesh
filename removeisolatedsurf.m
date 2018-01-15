@@ -18,7 +18,7 @@ function fnew=removeisolatedsurf(v,f,maxdiameter)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-fc=finddisconnsurf(f);
+fc=iso2mesh.finddisconnsurf(f);
 for i=1:length(fc)
     xdia=v(fc{i},1);
     xdia=max(xdia(:))-min(xdia(:));

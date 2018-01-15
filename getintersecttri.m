@@ -18,10 +18,10 @@ function eid=getintersecttri(tmppath)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-exesuff=getexeext;
-exesuff=fallbackexeext(exesuff,'tetgen');
+exesuff=iso2mesh.getexeext;
+exesuff=iso2mesh.fallbackexeext(exesuff,'tetgen');
 
-[status,str] = system(['"' mcpath('tetgen') exesuff '" -d "' ...
+[status,str] = system(['"' iso2mesh.mcpath('tetgen') exesuff '" -d "' ...
                         tmppath 'post_vmesh.poly"'])
 
 eid=[];

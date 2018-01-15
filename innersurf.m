@@ -19,7 +19,7 @@ function [inface, outface]=innersurf(node,face,outface)
 %
 
 if(nargin<3)
-  outface=outersurf(node,face);
+  outface=iso2mesh.outersurf(node,face);
 end
 
 [I,J]=ismember(sort(face,2),sort(outface,2),'rows');

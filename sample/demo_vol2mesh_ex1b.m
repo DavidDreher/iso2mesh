@@ -21,10 +21,10 @@ load rat_head.mat
 % this method does not guarantee to be free of self-intersecting
 % element, as 'cgalsurf' promises.
 
-[node,elem,face]=vol2mesh(volimage>0.05,1:size(volimage,1),1:size(volimage,2),...
+[node,elem,face]=iso2mesh.vol2mesh(volimage>0.05,1:size(volimage,1),1:size(volimage,2),...
                           1:size(volimage,3),0.1,2,1,'simplify');
 
 %% visualize the resulting mesh
 
-plotmesh(node,face);
+iso2mesh.plotmesh(node,face);
 axis equal;

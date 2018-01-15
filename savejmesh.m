@@ -38,10 +38,10 @@ end
 if(length(varargin)==1 && ischar(varargin{1}))
    opt=struct('FileName',varargin{1});
 else
-   opt=varargin2struct(varargin{:});
+   opt=iso2mesh.varargin2struct(varargin{:});
 end
 
-meshdim=jsonopt('Dimension',0,opt);
+meshdim=iso2mesh.jsonopt('Dimension',0,opt);
 
 fid=fopen(fname,'wt');
 if(fid==-1)
@@ -50,7 +50,7 @@ end
 
 mesh.MeshVersion=0.5;
 mesh.CreationTime=datestr(now);
-mesh.Comment=['Created by iso2mesh ' iso2meshver '(http://iso2mesh.sf.net)'];
+mesh.Comment=['Created by iso2mesh ' iso2mesh.iso2meshver '(http://iso2mesh.sf.net)'];
 
 if(meshdim==0) % a user-defined mesh
     mesh.MeshNode=node;
@@ -105,31 +105,31 @@ else
     error('the specified Dimension is not supported, please remove to save data to a general format');
 end
 
-author=jsonopt('Author','',opt);
+author=iso2mesh.jsonopt('Author','',opt);
 if(~isempty(author))
     mesh.Author=author;
 end
 
-title=jsonopt('MeshTitle','',opt);
+title=iso2mesh.jsonopt('MeshTitle','',opt);
 if(~isempty(title))
     mesh.MeshTitle=title;
 end
 
-tag=jsonopt('MeshTag',[],opt);
+tag=iso2mesh.jsonopt('MeshTag',[],opt);
 if(~isempty(tag))
     mesh.MeshTag=tag;
 end
 
-group=jsonopt('MeshGroup',[],opt);
+group=iso2mesh.jsonopt('MeshGroup',[],opt);
 if(~isempty(group))
     mesh.MeshTag=group;
 end
 
-comm=jsonopt('Comment','',opt);
+comm=iso2mesh.jsonopt('Comment','',opt);
 if(~isempty(comm))
     mesh.Comment=comm;
 end
 
-fprintf(fid,'%s\n',savejson('',mesh,varargin{:}));
+fprintf(fid,'%s\n',iso2mesh.savejson('',mesh,varargin{:}));
 
 fclose(fid);

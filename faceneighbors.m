@@ -33,7 +33,7 @@ faces=[t(:,[1,2,3]);
 
 faces=sort(faces,2);
 [foo,ix,jx]=unique(faces,'rows');
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
         u=unique(jx);
         qx=u(hist(jx,u)==2);
 else
@@ -53,7 +53,7 @@ facenb=zeros(size(t));
 % doing this is 60 times faster than doing find(jx==qx(i))
 % inside a loop
 
-if(isoctavemesh || datenum(version('-date'))>datenum('January 27 2006')) % compare to matlab 7.2
+if(iso2mesh.isoctavemesh || datenum(version('-date'))>datenum('January 27 2006')) % compare to matlab 7.2
 	[ujx,ii]=unique(jx,'first');
 	[ujx,ii2]=unique(jx,'last');
 else

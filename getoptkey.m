@@ -22,7 +22,7 @@ function val=getoptkey(key,default,varargin)
 
 val=default;
 if(nargin<=2) return; end
-opt=varargin2struct(varargin{:});
+opt=iso2mesh.varargin2struct(varargin{:});
 if(isstruct(opt) && isfield(opt,key))
     val=getfield(opt,key);
 end

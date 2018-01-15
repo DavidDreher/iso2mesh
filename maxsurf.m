@@ -27,7 +27,7 @@ maxid=-1;
 if(nargin==2)
     areas=zeros(1,length(facecell));
     for i=1:length(facecell)
-       areas(i)=sum(elemvolume(node(:,1:3),facecell{i}));
+       areas(i)=sum(iso2mesh.elemvolume(node(:,1:3),facecell{i}));
     end
     [maxsize,maxid]=max(areas);
     f=facecell{maxid};

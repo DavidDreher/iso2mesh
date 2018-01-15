@@ -49,4 +49,4 @@ theta=angle0+dt:dt:2*pi+angle0;
 cx=r*cos(theta);
 cy=r*sin(theta);
 pp=[cx(:) cy(:) zeros(ndiv,1)];
-node=rotatevec3d(pp,v0)+repmat(c0(:)',size(pp,1),1);
+node=iso2mesh.rotatevec3d(pp,v0)+repmat(c0(:)',size(pp,1),1);

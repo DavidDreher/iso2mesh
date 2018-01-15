@@ -37,7 +37,7 @@ iz=hz(1):min(length(zi),hz(end)+1);
 
 for i=1:length(iz);
     plane=[0 100 zi(iz(i)); 100 0 zi(iz(i)); 0 0 zi(iz(i))];
-    [bcutpos,bcutvalue,bcutedges]=qmeshcut(face(:,1:3),node,node(:,1),plane);
+    [bcutpos,bcutvalue,bcutedges]=iso2mesh.qmeshcut(face(:,1:3),node,node(:,1),plane);
     if(isempty(bcutpos))
         continue;
     end

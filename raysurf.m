@@ -55,7 +55,7 @@ v=t;
 idx=t;
 
 for i=1:len
-   [ti,ui,vi,id]=raytrace(p0(i,:),v0(i,:),node,face);
+   [ti,ui,vi,id]=iso2mesh.raytrace(p0(i,:),v0(i,:),node,face);
    if(isempty(id)) continue; end
    ti=ti(id);
    tpid=find(ti>=0);

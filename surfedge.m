@@ -24,8 +24,8 @@ if(isempty(f))
     return;
 end
 
-opt=varargin2struct(varargin{:});
-findjunc=jsonopt('Junction',0,opt);
+opt=iso2mesh.varargin2struct(varargin{:});
+findjunc=iso2mesh.jsonopt('Junction',0,opt);
 
 if(size(f,2)==3)
     edges=[f(:,[1,2]);
@@ -43,7 +43,7 @@ end
 edgesort=sort(edges,2);
 [foo,ix,jx]=unique(edgesort,'rows');
 
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
         u=unique(jx);
         if(size(f,2)==3 && findjunc)
             qx=u(hist(jx,u)>2);

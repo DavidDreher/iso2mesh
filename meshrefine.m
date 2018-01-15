@@ -71,8 +71,8 @@ function [newnode,newelem,newface]=meshrefine(node,elem,varargin)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-exesuff=getexeext;
-exesuff=fallbackexeext(exesuff,'tetgen');
+exesuff=iso2mesh.getexeext;
+exesuff=iso2mesh.fallbackexeext(exesuff,'tetgen');
 
 newpt=[];
 sizefield=[];
@@ -114,8 +114,8 @@ if(isstruct(opt) && isfield(opt,'sizefield'))
 end
 
 % call tetgen to create volumetric mesh
-deletemeshfile(mwpath('pre_refine.*'));
-deletemeshfile(mwpath('post_refine.*'));
+iso2mesh.deletemeshfile(iso2mesh.mwpath('pre_refine.*'));
+iso2mesh.deletemeshfile(iso2mesh.mwpath('post_refine.*'));
 
 moreopt='';
 setquality=0;
@@ -138,19 +138,19 @@ if(~isempty(newpt))
 	if(size(newpt,1)<4)
 		newpt=[newpt; repmat(newpt(1,:),4-size(newpt,1),1)];
 	end
-	savetetgennode(newpt,mwpath('pre_refine.1.a.node'));
+	iso2mesh.savetetgennode(newpt,iso2mesh.mwpath('pre_refine.1.a.node'));
 	moreopt=' -i ';
 end
 
 if(~isempty(sizefield))
     if(length(sizefield)==size(node,1))
-        fid=fopen(mwpath('pre_refine.1.mtr'),'wt');
+        fid=fopen(iso2mesh.mwpath('pre_refine.1.mtr'),'wt');
         fprintf(fid,'%d 1\n',size(sizefield,1));
         fprintf(fid,'%.16f\n',sizefield);
         fclose(fid);
 	moreopt=[moreopt ' -qa '];
     else
-        fid=fopen(mwpath('pre_refine.1.vol'),'wt');
+        fid=fopen(iso2mesh.mwpath('pre_refine.1.vol'),'wt');
         fprintf(fid,'%d\n',size(sizefield,1));
         fprintf(fid,'%d\t%.16f\n',[(1:size(sizefield,1))' sizefield]');
         fclose(fid);
@@ -162,13 +162,13 @@ if(size(elem,2)==3 && setquality==0)
     if(~isempty(newpt))
         error('inserting new point can not be used for surfaces');
     end
-    nedge=savegts(node, elem,mwpath('pre_refine.gts'));
-    exesuff=fallbackexeext(getexeext,'gtsrefine');
+    nedge=iso2mesh.savegts(node, elem,iso2mesh.mwpath('pre_refine.gts'));
+    exesuff=iso2mesh.fallbackexeext(iso2mesh.getexeext,'gtsrefine');
 elseif(size(elem,2)==3)
-    savesurfpoly(node,elem,[],[],[],[],mwpath('pre_refine.poly'));
+    iso2mesh.savesurfpoly(node,elem,[],[],[],[],iso2mesh.mwpath('pre_refine.poly'));
 else
-    savetetgennode(node, mwpath('pre_refine.1.node'));
-    savetetgenele (elem, mwpath('pre_refine.1.ele'));
+    iso2mesh.savetetgennode(node, iso2mesh.mwpath('pre_refine.1.node'));
+    iso2mesh.savetetgenele (elem, iso2mesh.mwpath('pre_refine.1.ele'));
 end
 
 fprintf(1,'refining the input mesh ...\n');
@@ -185,16 +185,16 @@ if(isstruct(opt) && isfield(opt,'moreopt'))
 end
 
 if(size(elem,2)==3 && setquality==0)
-    system([' "' mcpath('gtsrefine') exesuff '" ' moreopt ' < "' ...
-          mwpath('pre_refine.gts') '" > "' mwpath('post_refine.gts') '"']);
-    [newnode,newelem]=readgts(mwpath('post_refine.gts'));
+    system([' "' iso2mesh.mcpath('gtsrefine') exesuff '" ' moreopt ' < "' ...
+          iso2mesh.mwpath('pre_refine.gts') '" > "' iso2mesh.mwpath('post_refine.gts') '"']);
+    [newnode,newelem]=iso2mesh.readgts(iso2mesh.mwpath('post_refine.gts'));
     newface=newelem;
 elseif(size(elem,2)==3)
-    system([' "' mcpath('tetgen') exesuff '" ' moreopt ' -p -A "' mwpath('pre_refine.poly') '"']);
-    [newnode,newelem,newface]=readtetgen(mwpath('pre_refine.1'));
+    system([' "' iso2mesh.mcpath('tetgen') exesuff '" ' moreopt ' -p -A "' iso2mesh.mwpath('pre_refine.poly') '"']);
+    [newnode,newelem,newface]=iso2mesh.readtetgen(iso2mesh.mwpath('pre_refine.1'));
 elseif(~isempty(moreopt))
-    system([' "' mcpath('tetgen') exesuff '" ' moreopt ' -r "' mwpath('pre_refine.1') '"']);
-    [newnode,newelem,newface]=readtetgen(mwpath('pre_refine.2'));
+    system([' "' iso2mesh.mcpath('tetgen') exesuff '" ' moreopt ' -r "' iso2mesh.mwpath('pre_refine.1') '"']);
+    [newnode,newelem,newface]=iso2mesh.readtetgen(iso2mesh.mwpath('pre_refine.2'));
 else
     newnode=node;
     newelem=elem;
@@ -213,21 +213,21 @@ if(~isempty(externalpt)) % user request to insert nodes that are outside of the 
         outface=convhulln(allnode);
     end
     outface=sort(outface,2);
-    face=volface(newelem(:,1:4));
+    face=iso2mesh.volface(newelem(:,1:4));
     inface=sort(face(:,1:3),2);
 
     % define the surface that bounds the newly extended convex hull space
-    bothsides=removedupelem([outface;inface]);
+    bothsides=iso2mesh.removedupelem([outface;inface]);
 
     % define a seed point to avoid meshing the interior space
-    holelist=surfseeds(node,face(:,1:3));
+    holelist=iso2mesh.surfseeds(node,face(:,1:3));
 
     % mesh the extended space
-    ISO2MESH_TETGENOPT=jsonopt('extcmdopt','-Y',opt);
+    ISO2MESH_TETGENOPT=iso2mesh.jsonopt('extcmdopt','-Y',opt);
     if(size(bothsides,1)>=size(inface,1))
-        [no,el]=surf2mesh(allnode,bothsides,[],[],1,10,[],holelist);
+        [no,el]=iso2mesh.surf2mesh(allnode,bothsides,[],[],1,10,[],holelist);
     else
-        [no,el]=surf2mesh(allnode,bothsides,[],[],1,10);
+        [no,el]=iso2mesh.surf2mesh(allnode,bothsides,[],[],1,10);
     end
 
     [isinside,map]=ismember(round(no*1e10)*1e-10,round(allnode*1e10)*1e-10,'rows');
@@ -243,10 +243,10 @@ if(~isempty(externalpt)) % user request to insert nodes that are outside of the 
 
     % label all new elements with -1
     if(size(newelem,2)==5)
-        el2(:,5)=jsonopt('extlabel',0,opt);
+        el2(:,5)=iso2mesh.jsonopt('extlabel',0,opt);
         % search elements that contain source(s) and save their id(s)
         iselm=ismember(el2(:,1:4),snid);
-        el2(sum(iselm,2)>=3,5)=jsonopt('extcorelabel',-1,opt);
+        el2(sum(iselm,2)>=3,5)=iso2mesh.jsonopt('extcorelabel',-1,opt);
     end
 
     % merge nodes/elements and replace the original ones

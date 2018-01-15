@@ -37,10 +37,10 @@ if(~isempty(elem))
 	elem(:,5:end)=[];
   end
   if(size(elem,2)==4)
-	elem=meshreorient(node,elem);
-	elem=volface(elem);
+	elem=iso2mesh.meshreorient(node,elem);
+	elem=iso2mesh.volface(elem);
   end
-  ev=surfplane(node,elem);
+  ev=iso2mesh.surfplane(node,elem);
   ev=ev(:,1:3)./repmat(sqrt(sum(ev(:,1:3).*ev(:,1:3),2)),1,3);
   len=size(elem,1);
   for i=1:len

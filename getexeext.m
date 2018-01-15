@@ -16,7 +16,7 @@ exesuff='.exe';
 if(isunix) 
 	exesuff=['.',mexext];
 end
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
    if(~ispc)
       if(~ismac)
 	   if(isempty(regexp(computer,'86_64')))

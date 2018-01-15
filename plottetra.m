@@ -30,10 +30,10 @@ function hm=plottetra(node,elem,varargin)
 rngstate = rand ('state');
 
 randseed=hex2dec('623F9A9E'); % "U+623F U+9A9E"
-if(isoctavemesh) randseed=randseed+3; end
+if(iso2mesh.isoctavemesh) randseed=randseed+3; end
 
-if(~isempty(getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
-        randseed=getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
+if(~isempty(iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
+        randseed=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
 end
 rand('state',randseed);
 
@@ -46,24 +46,24 @@ if(~iscell(elem))
                 if(all(isinteger(tag)))
 		    for i=1:length(types)
 			idx=find(tag==types(i));
-			face=volface(elem(idx,1:4));
+			face=iso2mesh.volface(elem(idx,1:4));
 	                if(size(node,2)==3)
-			    h=[h plotsurf(node,face,'facecolor',rand(3,1),varargin{:})];
+			    h=[h iso2mesh.plotsurf(node,face,'facecolor',rand(3,1),varargin{:})];
 			else
-                            h=[h plotsurf(node,face,varargin{:})];
+                            h=[h iso2mesh.plotsurf(node,face,varargin{:})];
                         end
                     end
                 else
-                    [face,eid]=volface(elem(:,1:4));
+                    [face,eid]=iso2mesh.volface(elem(:,1:4));
                     if(size(elem,2)>=5)
-                        h=[h plotsurf(node,face,'FaceVertexCData',tag(eid), varargin{:})];
+                        h=[h iso2mesh.plotsurf(node,face,'FaceVertexCData',tag(eid), varargin{:})];
                     else
-                        h=[h plotsurf(node,face,varargin{:})];
+                        h=[h iso2mesh.plotsurf(node,face,varargin{:})];
                     end
                 end
 	else
-		face=volface(elem(:,1:4));
-		h=plotsurf(node,face,varargin{:});
+		face=iso2mesh.volface(elem(:,1:4));
+		h=iso2mesh.plotsurf(node,face,varargin{:});
 	end
 end
 

@@ -19,4 +19,4 @@ function varargout=volface(t)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-[varargout{1:nargout}]=surfedge(t);
+[varargout{1:nargout}]=iso2mesh.surfedge(t);

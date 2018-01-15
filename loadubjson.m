@@ -72,8 +72,8 @@ arraytoken=sort([arraytoken escquote]);
 esc = find(inStr=='"' | inStr=='\' ); % comparable to: regexp(inStr, '["\\]');
 index_esc = 1; len_esc = length(esc);
 
-opt=varargin2struct(varargin{:});
-fileendian=upper(jsonopt('IntEndian','B',opt));
+opt=iso2mesh.varargin2struct(varargin{:});
+fileendian=upper(iso2mesh.jsonopt('IntEndian','B',opt));
 [os,maxelem,systemendian]=computer;
 
 jsoncount=1;
@@ -111,7 +111,7 @@ function object = parse_object(varargin)
     if next_char ~= '}'
         num=0;
         while 1
-            if(jsonopt('NameIsString',0,varargin{:}))
+            if(iso2mesh.jsonopt('NameIsString',0,varargin{:}))
                 str = parseStr(varargin{:});
             else
                 str = parse_name(varargin{:});
@@ -133,7 +133,7 @@ function object = parse_object(varargin)
         parse_char('}');
     end
     if(isstruct(object))
-        object=struct2jdata(object);
+        object=iso2mesh.struct2jdata(object);
     end
 
 %%-------------------------------------------------------------------------
@@ -217,11 +217,11 @@ global pos inStr
             %parse_char(',');
          end
     end
-    if(jsonopt('SimplifyCell',0,varargin{:})==1)
+    if(iso2mesh.jsonopt('SimplifyCell',0,varargin{:})==1)
       try
         oldobj=object;
         object=cell2mat(object')';
-        if(iscell(oldobj) && isstruct(object) && numel(object)>1 && jsonopt('SimplifyCellArray',1,varargin{:})==0)
+        if(iscell(oldobj) && isstruct(object) && numel(object)>1 && iso2mesh.jsonopt('SimplifyCellArray',1,varargin{:})==0)
             object=oldobj;
         elseif(size(object,1)>1 && ismatrix(object))
             object=object';

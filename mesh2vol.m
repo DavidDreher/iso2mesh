@@ -79,18 +79,18 @@ end
 hf=figure('visible','on');
 for i=1:nz
     if(~isempty(nodeval))
-        [cutpos,cutvalue,facedata,elemid]=qmeshcut(elem,node,nodeval,['z=' num2str(zi(i))]);
+        [cutpos,cutvalue,facedata,elemid]=iso2mesh.qmeshcut(elem,node,nodeval,['z=' num2str(zi(i))]);
     else
-        [cutpos,cutvalue,facedata,elemid]=qmeshcut(elem,node,node(:,1),['z=' num2str(zi(i))]);
+        [cutpos,cutvalue,facedata,elemid]=iso2mesh.qmeshcut(elem,node,node(:,1),['z=' num2str(zi(i))]);
     end
     if(isempty(cutpos))
         continue;
     end
     if(nargout>1 || ~isempty(nodeval))
-        [maskz, weightz]=mesh2mask(cutpos,facedata,xi,yi,hf);
+        [maskz, weightz]=iso2mesh.mesh2mask(cutpos,facedata,xi,yi,hf);
         weight(:,:,:,i)=weightz;
     else
-        maskz=mesh2mask(cutpos,facedata,xi,yi,hf);
+        maskz=iso2mesh.mesh2mask(cutpos,facedata,xi,yi,hf);
     end
     idx=find(~isnan(maskz));
     if(~isempty(nodeval))

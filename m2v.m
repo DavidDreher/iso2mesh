@@ -13,4 +13,4 @@ function varargout=m2v(varargin)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-[varargout{1:nargout}]=mesh2vol(varargin{:});
+[varargout{1:nargout}]=iso2mesh.mesh2vol(varargin{:});

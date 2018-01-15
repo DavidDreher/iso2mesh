@@ -25,7 +25,7 @@ if(fid==-1)
 end
 v=v(:,1:3);
 f=f(:,1:3);
-[edges,idx,edgemap]=uniqedges(f);
+[edges,idx,edgemap]=iso2mesh.uniqedges(f);
 nedge=size(edges,1);
 
 fprintf(fid,'%d %d %d\n',size(v,1),nedge,size(f,1));

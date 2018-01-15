@@ -21,7 +21,7 @@ function [edges,idx,edgemap]=uniqedges(elem)
 if(size(elem)==2)
    edges=elem;
 elseif(size(elem)>=3)
-   edges=meshedge(elem);
+   edges=iso2mesh.meshedge(elem);
 else
    error('invalid input');
 end

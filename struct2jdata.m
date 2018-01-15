@@ -36,7 +36,7 @@ function newdata=struct2jdata(data,varargin)
 fn=fieldnames(data);
 newdata=data;
 len=length(data);
-if(jsonopt('Recursive',0,varargin{:})==1)
+if(iso2mesh.jsonopt('Recursive',0,varargin{:})==1)
   for i=1:length(fn) % depth-first
     for j=1:len
         if(isstruct(getfield(data(j),fn{i})))

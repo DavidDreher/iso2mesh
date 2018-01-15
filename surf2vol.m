@@ -30,8 +30,8 @@ function [img, v2smap]=surf2vol(node,face,xi,yi,zi,varargin)
 
 fprintf(1,'converting a closed surface to a volumetric binary image ...\n');
 
-opt=varargin2struct(varargin{:});
-label=jsonopt('label',0,opt);
+opt=iso2mesh.varargin2struct(varargin{:});
+label=iso2mesh.jsonopt('label',0,opt);
 
 elabel=[1];
 if(size(face,2)>=4)
@@ -41,7 +41,7 @@ if(size(face,2)>=4)
             el=face;
             face=[];
             for i=1:length(elabel)
-                    fc=volface(el(el(:,5)==elabel(i),1:4));
+                    fc=iso2mesh.volface(el(el(:,5)==elabel(i),1:4));
                     fc(:,4)=elabel(i);
                     face=[face ; fc];
             end
@@ -56,16 +56,16 @@ for i=1:length(elabel)
         if(size(face,2)==4)
             fc=face(face(:,4)==elabel(i),1:3);
         end
-        im=surf2volz(node(:,1:3),fc(:,1:3),xi,yi,zi);
-        im=im | shiftdim(surf2volz(node(:,[3 1 2]),fc(:,1:3),zi,xi,yi),1);
-        im=im | shiftdim(surf2volz(node(:,[2 3 1]),fc(:,1:3),yi,zi,xi),2);
+        im=iso2mesh.surf2volz(node(:,1:3),fc(:,1:3),xi,yi,zi);
+        im=im | shiftdim(iso2mesh.surf2volz(node(:,[3 1 2]),fc(:,1:3),zi,xi,yi),1);
+        im=im | shiftdim(iso2mesh.surf2volz(node(:,[2 3 1]),fc(:,1:3),yi,zi,xi),2);
 
         v2smap=[];
 
         % here we assume the grid is uniform; surf2vol can handle non-uniform grid, 
         % but the affine output is not correct in this case
 
-        if(jsonopt('fill',0,opt) || label)
+        if(iso2mesh.jsonopt('fill',0,opt) || label)
                 im=imfill(im,'holes');
                 if(label)
                     im=im*elabel(i);

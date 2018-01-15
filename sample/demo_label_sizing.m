@@ -25,26 +25,26 @@ image = uint8(image);
 
 figure;
 maxvol='1';
-[no,el]=v2m(image,[],5,maxvol,'cgalmesh');
+[no,el]=iso2mesh.v2m(image,[],5,maxvol,'cgalmesh');
 subplot(221);
-plotmesh(no(:,1:3),el,'x-y<0');
+iso2mesh.plotmesh(no(:,1:3),el,'x-y<0');
 title('a single scalar sets cell size for all labels');
 
 maxvol='1=2:2=1:3=2:4=1';
-[no,el]=v2m(image,[],5,maxvol,'cgalmesh');
+[no,el]=iso2mesh.v2m(image,[],5,maxvol,'cgalmesh');
 subplot(222);
-plotmesh(no(:,1:3),el,'x-y<0');
+iso2mesh.plotmesh(no(:,1:3),el,'x-y<0');
 title(sprintf('maxvol is "%s"',maxvol));
 
 maxvol='2:1:2:1';
-[no,el]=v2m(image,[],5,maxvol,'cgalmesh');
+[no,el]=iso2mesh.v2m(image,[],5,maxvol,'cgalmesh');
 subplot(224);
-plotmesh(no(:,1:3),el,'x-y<0');
+iso2mesh.plotmesh(no(:,1:3),el,'x-y<0');
 title(sprintf('maxvol is "%s", same as above',maxvol));
 
 maxvol='3=2:1:0.5';
-[no,el]=v2m(image,[],5,maxvol,'cgalmesh');
+[no,el]=iso2mesh.v2m(image,[],5,maxvol,'cgalmesh');
 subplot(223);
-plotmesh(no(:,1:3),el,'x-y<0');
+iso2mesh.plotmesh(no(:,1:3),el,'x-y<0');
 title(sprintf('maxvol is "%s", same to 3=2:4=1:5=0.5',maxvol));
 

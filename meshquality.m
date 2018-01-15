@@ -32,8 +32,8 @@ if(size(elem,2)>maxnode)
     elem=elem(:,1:maxnode);
 end
 enum=size(elem,1);
-vol=elemvolume(node,elem);
-edges=meshedge(elem);
+vol=iso2mesh.elemvolume(node,elem);
+edges=iso2mesh.meshedge(elem);
 ed=node(edges(:,1),:)-node(edges(:,2),:);
 ed=sum((ed.*ed)');
 ed=sum(reshape(ed,[enum length(ed)/enum])')';

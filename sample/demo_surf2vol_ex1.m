@@ -12,9 +12,9 @@ load rat_head.mat
 % first, generate a surface from the original image
 % similar to demo_shortcuts_ex1.m
 
-[node,face,regions,holes]=v2s(volimage,0.5,3);
+[node,face,regions,holes]=iso2mesh.v2s(volimage,0.5,3);
 
-node=sms(node,face(:,1:3),3,0.5); % apply 3 mesh smoothing
+node=iso2mesh.sms(node,face(:,1:3),3,0.5); % apply 3 mesh smoothing
 
 mdim=ceil(max(node)+1);
 dstep=0.25;
@@ -22,7 +22,7 @@ zslice=15;
 xrange=0:dstep:mdim(1);
 yrange=0:dstep:mdim(2);
 zrange=0:dstep:mdim(3);
-img=surf2vol(node,face(:,1:3),xrange,yrange,zrange);
+img=iso2mesh.surf2vol(node,face(:,1:3),xrange,yrange,zrange);
 
 imagesc(squeeze(img(:,:,zslice))); % z=10
 
@@ -36,13 +36,13 @@ plane=[min(node(:,1)) min(node(:,2)) z0
 % run qmeshcut to get the cross-section information at z=mean(node(:,1))
 % use the x-coordinates as the nodal values
 
-[bcutpos,bcutvalue,bcutedges]=qmeshcut(face(:,1:3),node,node(:,1),plane);
-[bcutpos,bcutedges]=removedupnodes(bcutpos,bcutedges);
-bcutloop=extractloops(bcutedges);
+[bcutpos,bcutvalue,bcutedges]=iso2mesh.qmeshcut(face(:,1:3),node,node(:,1),plane);
+[bcutpos,bcutedges]=iso2mesh.removedupnodes(bcutpos,bcutedges);
+bcutloop=iso2mesh.extractloops(bcutedges);
 bcutloop(isnan(bcutloop))=[]; % there can be multiple loops, remove the separators
 plot(bcutpos(bcutloop,2)*(1/dstep),bcutpos(bcutloop,1)*(1/dstep),'w');
 
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
   if(~exist('bwfill'))
     error('you need to install octave-image toolbox first');
   end

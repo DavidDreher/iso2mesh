@@ -25,7 +25,7 @@ end
 
 face=[fc; fc+nlen];
 
-edge=surfedge(fc);
+edge=iso2mesh.surfedge(fc);
 sideface=[edge edge(:,1)+nlen; edge+nlen edge(:,2)];
 face=[face; sideface];
 

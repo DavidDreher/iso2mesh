@@ -19,7 +19,7 @@ function tf=insurface(node,face,points)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-[no,el]=fillsurf(node,face);
+[no,el]=iso2mesh.fillsurf(node,face);
 tf=tsearchn(no,el,points);
 
 tf(~isnan(tf))=1;

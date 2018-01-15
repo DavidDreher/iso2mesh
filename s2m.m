@@ -21,7 +21,7 @@ function [node,elem,face]=s2m(v,f,keepratio,maxvol,method,regions,holes)
 %
 
 if(nargin>=5 && strcmp(method,'cgalpoly'))
-    [node,elem,face]=cgals2m(v,f,keepratio,maxvol);
+    [node,elem,face]=iso2mesh.cgals2m(v,f,keepratio,maxvol);
     return;
 end
 if(nargin<=5)
@@ -31,7 +31,7 @@ if(nargin<=6)
     holes=[];
 end
 if(nargin>=5)
-    [node,elem,face]=surf2mesh(v,f,[],[],keepratio,maxvol,regions,holes,0,method);
+    [node,elem,face]=iso2mesh.surf2mesh(v,f,[],[],keepratio,maxvol,regions,holes,0,method);
 else
-    [node,elem,face]=surf2mesh(v,f,[],[],keepratio,maxvol,regions,holes);
+    [node,elem,face]=iso2mesh.surf2mesh(v,f,[],[],keepratio,maxvol,regions,holes);
 end

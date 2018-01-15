@@ -90,9 +90,9 @@ arraytoken=sort([arraytoken escquote]);
 esc = find(inStr=='"' | inStr=='\' ); % comparable to: regexp(inStr, '["\\]');
 index_esc = 1;
 
-opt=varargin2struct(varargin{:});
+opt=iso2mesh.varargin2struct(varargin{:});
 
-if(jsonopt('ShowProgress',0,opt)==1)
+if(iso2mesh.jsonopt('ShowProgress',0,opt)==1)
     opt.progressbar_=waitbar(0,'loading ...');
 end
 jsoncount=1;
@@ -138,7 +138,7 @@ function object = parse_object(inStr, esc, varargin)
     end
     parse_char(inStr, '}');
     if(isstruct(object))
-        object=struct2jdata(object);
+        object=iso2mesh.struct2jdata(object);
     end
 
 %%-------------------------------------------------------------------------
@@ -148,14 +148,14 @@ function object = parse_array(inStr, esc, varargin) % JSON array is written in r
     parse_char(inStr, '[');
     object = cell(0, 1);
     dim2=[];
-    arraydepth=jsonopt('JSONLAB_ArrayDepth_',1,varargin{:});
+    arraydepth=iso2mesh.jsonopt('JSONLAB_ArrayDepth_',1,varargin{:});
     pbar=-1;
     if(isfield(varargin{1},'progressbar_'))
         pbar=varargin{1}.progressbar_;
     end
 
     if next_char(inStr) ~= ']'
-	if(jsonopt('FastArrayParser',1,varargin{:})>=1 && arraydepth>=jsonopt('FastArrayParser',1,varargin{:}))
+	if(iso2mesh.jsonopt('FastArrayParser',1,varargin{:})>=1 && arraydepth>=iso2mesh.jsonopt('FastArrayParser',1,varargin{:}))
             [endpos, e1l, e1r]=matching_bracket(inStr,pos);
             arraystr=['[' inStr(pos:endpos)];
             arraystr=regexprep(arraystr,'"_NaN_"','NaN');
@@ -219,7 +219,7 @@ function object = parse_array(inStr, esc, varargin) % JSON array is written in r
            pos=endpos;
         catch
          while 1
-            newopt=varargin2struct(varargin{:},'JSONLAB_ArrayDepth_',arraydepth+1);
+            newopt=iso2mesh.varargin2struct(varargin{:},'JSONLAB_ArrayDepth_',arraydepth+1);
             val = parse_value(inStr, esc, newopt);
             object{end+1} = val;
             if next_char(inStr) == ']'
@@ -229,11 +229,11 @@ function object = parse_array(inStr, esc, varargin) % JSON array is written in r
          end
         end
     end
-    if(jsonopt('SimplifyCell',0,varargin{:})==1)
+    if(iso2mesh.jsonopt('SimplifyCell',0,varargin{:})==1)
       try
         oldobj=object;
         object=cell2mat(object')';
-        if(iscell(oldobj) && isstruct(object) && numel(object)>1 && jsonopt('SimplifyCellArray',1,varargin{:})==0)
+        if(iscell(oldobj) && isstruct(object) && numel(object)>1 && iso2mesh.jsonopt('SimplifyCellArray',1,varargin{:})==0)
             object=oldobj;
         elseif(size(object,1)>1 && ismatrix(object))
             object=object';

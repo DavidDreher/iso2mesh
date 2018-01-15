@@ -24,66 +24,66 @@ function [node,elem]=meshcheckrepair(node,elem,opt,varargin)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-extra=varargin2struct(varargin{:});
+extra=iso2mesh.varargin2struct(varargin{:});
 
 if(nargin<3 || strcmp(opt,'dupnode')|| strcmp(opt,'dup'))
     l1=size(node,1);
-    [node,elem]=removedupnodes(node,elem,jsonopt('Tolerance',0,extra));
+    [node,elem]=iso2mesh.removedupnodes(node,elem,iso2mesh.jsonopt('Tolerance',0,extra));
     l2=size(node,1);
     if(l2~=l1) fprintf(1,'%d duplicated nodes were removed\n',l1-l2); end
 end
 
 if(nargin<3 || strcmp(opt,'duplicated')|| strcmp(opt,'dupelem')|| strcmp(opt,'dup'))
     l1=size(elem,1);
-    elem=removedupelem(elem);
+    elem=iso2mesh.removedupelem(elem);
     l2=length(elem);
     if(l2~=l1) fprintf(1,'%d duplicated elements were removed\n',l1-l2); end
 end
 
 if(nargin<3 || strcmp(opt,'isolated'))
     l1=length(node);
-    [node,elem]=removeisolatednode(node,elem);
+    [node,elem]=iso2mesh.removeisolatednode(node,elem);
     l2=length(node);
     if(l2~=l1) fprintf(1,'%d isolated nodes were removed\n',l1-l2); end
 end
 
 if(nargin==3 && strcmp(opt,'open'))
-    eg=surfedge(elem);
+    eg=iso2mesh.surfedge(elem);
     if(~isempty(eg)) 
         error('open surface found, you need to enclose it by padding zeros around the volume');
     end
 end
 
 if(nargin<3 || strcmp(opt,'deep'))
-    exesuff=getexeext;
-    exesuff=fallbackexeext(exesuff,'jmeshlib');
-    deletemeshfile(mwpath('post_sclean.off'));
-    saveoff(node(:,1:3),elem(:,1:3),mwpath('pre_sclean.off'));
-    system([' "' mcpath('jmeshlib') exesuff '" "' mwpath('pre_sclean.off') '" "' mwpath('post_sclean.off') '"']);
-    [node,elem]=readoff(mwpath('post_sclean.off'));
+    exesuff=iso2mesh.getexeext;
+    exesuff=iso2mesh.fallbackexeext(exesuff,'jmeshlib');
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('post_sclean.off'));
+    iso2mesh.saveoff(node(:,1:3),elem(:,1:3),iso2mesh.mwpath('pre_sclean.off'));
+    system([' "' iso2mesh.mcpath('jmeshlib') exesuff '" "' iso2mesh.mwpath('pre_sclean.off') '" "' iso2mesh.mwpath('post_sclean.off') '"']);
+    [node,elem]=iso2mesh.readoff(iso2mesh.mwpath('post_sclean.off'));
 end
 
-exesuff=fallbackexeext(getexeext,'meshfix');
+exesuff=iso2mesh.fallbackexeext(iso2mesh.getexeext,'meshfix');
 moreopt=' -q -a 0.01 ';
 if(isstruct(extra) && isfield(extra,'MeshfixParam'))
     moreopt=extra.MeshfixParam;
 end
 
 if(nargin>=3 && strcmp(opt,'meshfix'))
-    deletemeshfile(mwpath('pre_sclean.off'));
-    deletemeshfile(mwpath('pre_sclean_fixed.off'));
-    saveoff(node,elem,mwpath('pre_sclean.off'));
-    system([' "' mcpath('meshfix') exesuff '" "' mwpath('pre_sclean.off') ...
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('pre_sclean.off'));
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('pre_sclean_fixed.off'));
+    iso2mesh.saveoff(node,elem,iso2mesh.mwpath('pre_sclean.off'));
+    system([' "' iso2mesh.mcpath('meshfix') exesuff '" "' iso2mesh.mwpath('pre_sclean.off') ...
         '" ' moreopt]);
-    [node,elem]=readoff(mwpath('pre_sclean_fixed.off'));
+    [node,elem]=iso2mesh.readoff(iso2mesh.mwpath('pre_sclean_fixed.off'));
 end
 
 if(nargin>=3 && strcmp(opt,'intersect'))
-    moreopt=sprintf(' -q --no-clean --intersect -o "%s"',mwpath('pre_sclean_inter.msh'));
-    deletemeshfile(mwpath('pre_sclean.off'));
-    deletemeshfile(mwpath('pre_sclean_inter.msh'));
-    saveoff(node,elem,mwpath('pre_sclean.off'));
-    system([' "' mcpath('meshfix') exesuff '" "' mwpath('pre_sclean.off') ...
+    moreopt=sprintf(' -q --no-clean --intersect -o "%s"',iso2mesh.mwpath('pre_sclean_inter.msh'));
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('pre_sclean.off'));
+    iso2mesh.deletemeshfile(iso2mesh.mwpath('pre_sclean_inter.msh'));
+    iso2mesh.saveoff(node,elem,iso2mesh.mwpath('pre_sclean.off'));
+    system([' "' iso2mesh.mcpath('meshfix') exesuff '" "' iso2mesh.mwpath('pre_sclean.off') ...
         '" ' moreopt]);
     %[node,elem]=readoff(mwpath('pre_sclean_inter.off'));
 end

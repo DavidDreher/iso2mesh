@@ -90,7 +90,7 @@ end
 if(length(varargin)==1 && ischar(varargin{1}))
    opt=struct('filename',varargin{1});
 else
-   opt=varargin2struct(varargin{:});
+   opt=iso2mesh.varargin2struct(varargin{:});
 end
 opt.IsOctave=exist('OCTAVE_VERSION','builtin');
 if(isfield(opt,'norowbracket'))
@@ -101,7 +101,7 @@ if(isfield(opt,'norowbracket'))
 end
 rootisarray=0;
 rootlevel=1;
-forceroot=jsonopt('ForceRootName',0,opt);
+forceroot=iso2mesh.jsonopt('ForceRootName',0,opt);
 if((isnumeric(obj) || islogical(obj) || ischar(obj) || isstruct(obj) || ...
         iscell(obj) || isobject(obj)) && isempty(rootname) && forceroot==0)
     rootisarray=1;
@@ -119,13 +119,13 @@ if(~rootisarray)
     json=['{' json '}'];
 end
 
-jsonp=jsonopt('JSONP','',opt);
+jsonp=iso2mesh.jsonopt('JSONP','',opt);
 if(~isempty(jsonp))
     json=[jsonp '(' json ')'];
 end
 
 % save to a file if FileName is set, suggested by Patrick Rapin
-filename=jsonopt('FileName','',opt);
+filename=iso2mesh.jsonopt('FileName','',opt);
 if(~isempty(filename))
     fid = fopen(filename, 'wb');
     fwrite(fid,json);
@@ -159,7 +159,7 @@ if(ndims(squeeze(item))>2) % for 3D or higher dimensions, flatten to 2D for now
     item=reshape(item,dim(1),numel(item)/dim(1));
     dim=size(item);
 end
-bracketlevel=~jsonopt('singletcell',1,varargin{:});
+bracketlevel=~iso2mesh.jsonopt('singletcell',1,varargin{:});
 len=numel(item); % let's handle 1D cell first
 if(len>bracketlevel) 
     if(~isempty(name))
@@ -201,7 +201,7 @@ if(ndims(squeeze(item))>2) % for 3D or higher dimensions, flatten to 2D for now
     dim=size(item);
 end
 len=numel(item);
-forcearray= (len>1 || (jsonopt('SingletArray',0,varargin{:})==1 && level>0));
+forcearray= (len>1 || (iso2mesh.jsonopt('SingletArray',0,varargin{:})==1 && level>0));
 
 if(~isempty(name)) 
     if(forcearray)
@@ -280,7 +280,7 @@ if(~isnumeric(item) && ~islogical(item))
 end
 
 if(length(size(item))>2 || issparse(item) || ~isreal(item) || ...
-   (isempty(item) && any(size(item))) ||jsonopt('ArrayToStruct',0,varargin{:}))
+   (isempty(item) && any(size(item))) ||iso2mesh.jsonopt('ArrayToStruct',0,varargin{:}))
       cid=I_(uint32(max(size(item))));
       if(isempty(name))
     	txt=['{' N_('_ArrayType_'),S_(class(item)),N_('_ArraySize_'),I_a(size(item),cid(1)) ];
@@ -296,7 +296,7 @@ else
     if(isempty(name))
     	txt=matdata2ubjson(item,level+1,varargin{:});
     else
-        if(numel(item)==1 && jsonopt('SingletArray',0,varargin{:})==0)
+        if(numel(item)==1 && iso2mesh.jsonopt('SingletArray',0,varargin{:})==0)
             numtxt=regexprep(regexprep(matdata2ubjson(item,level+1,varargin{:}),'^\[',''),']','');
            	txt=[N_(checkname(name,varargin{:})) numtxt];
         else
@@ -405,21 +405,21 @@ end
 %     txt=regexprep(txt,'\[',[repmat(sprintf('\t'),1,level) '[']);
 % end
 if(any(isinf(mat(:))))
-    txt=regexprep(txt,'([-+]*)Inf',jsonopt('Inf','"$1_Inf_"',varargin{:}));
+    txt=regexprep(txt,'([-+]*)Inf',iso2mesh.jsonopt('Inf','"$1_Inf_"',varargin{:}));
 end
 if(any(isnan(mat(:))))
-    txt=regexprep(txt,'NaN',jsonopt('NaN','"_NaN_"',varargin{:}));
+    txt=regexprep(txt,'NaN',iso2mesh.jsonopt('NaN','"_NaN_"',varargin{:}));
 end
 
 %%-------------------------------------------------------------------------
 function newname=checkname(name,varargin)
-isunpack=jsonopt('UnpackHex',1,varargin{:});
+isunpack=iso2mesh.jsonopt('UnpackHex',1,varargin{:});
 newname=name;
 if(isempty(regexp(name,'0x([0-9a-fA-F]+)_','once')))
     return
 end
 if(isunpack)
-    isoct=jsonopt('IsOctave',0,varargin{:});
+    isoct=iso2mesh.jsonopt('IsOctave',0,varargin{:});
     if(~isoct)
         newname=regexprep(name,'(^x|_){1}0x([0-9a-fA-F]+)_','${native2unicode(hex2dec($2))}');
     else

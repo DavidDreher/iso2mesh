@@ -24,7 +24,7 @@ else
   resimg=img;
 end
 
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
   if(~exist('bwfill'))
     error('you need to install octave-image toolbox first');
   end

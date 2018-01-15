@@ -48,7 +48,7 @@ if(nargin==2)
   end
 end
 
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
         u=unique(jx);
         qx=u(hist(jx,u)==2);
 else

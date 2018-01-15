@@ -39,9 +39,9 @@ rngstate = rand ('state');
 
 if(size(edges,1)==1 || size(edges,2)==1) % a loop: single column/row edges
     randseed=hex2dec('623F9A9E'); % "U+623F U+9A9E"
-    if(isoctavemesh) randseed=randseed+3; end
-    if(~isempty(getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
-        randseed=getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
+    if(iso2mesh.isoctavemesh) randseed=randseed+3; end
+    if(~isempty(iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED')))
+        randseed=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_RANDSEED');
     end
     rand('state',randseed);
 
@@ -53,7 +53,7 @@ if(size(edges,1)==1 || size(edges,2)==1) % a loop: single column/row edges
     seglen=length(seg);
     seghead=1;
     for i=1:seglen
-        h=plotmesh(node(loops(seghead:seg(i)-1),:), 'color',rand(3,1), varargin{:});
+        h=iso2mesh.plotmesh(node(loops(seghead:seg(i)-1),:), 'color',rand(3,1), varargin{:});
         hh=[hh h];
         seghead=seg(i)+1;
     end

@@ -22,7 +22,7 @@ function binname=mcpath(fname)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-p=getvarfrom({'caller','base'},'ISO2MESH_BIN');
+p=iso2mesh.getvarfrom({'caller','base'},'ISO2MESH_BIN');
 if(isempty(p))
 	% the bin folder under iso2mesh is searched first
 	tempname=[fileparts(mfilename('fullpath')) filesep 'bin' filesep fname];

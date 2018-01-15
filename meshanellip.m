@@ -49,9 +49,9 @@ if(nargout==3)
     if(nargin==3)
 	maxvol=tsize*tsize*tsize;
     end
-    [node,face,elem]=meshunitsphere(tsize/rmax,maxvol/(rmax*rmax*rmax));
+    [node,face,elem]=iso2mesh.meshunitsphere(tsize/rmax,maxvol/(rmax*rmax*rmax));
 else
-    [node,face]=meshunitsphere(tsize/rmax);
+    [node,face]=iso2mesh.meshunitsphere(tsize/rmax);
 end
 
 node=node*diag(rr(1:3));

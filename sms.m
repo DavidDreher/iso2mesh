@@ -30,5 +30,5 @@ if(nargin<4)
    alpha=0.5;
 end
 
-conn=meshconn(face,size(node,1));
-newnode=smoothsurf(node(:,1:3),[],conn,iter,alpha,method,alpha);
+conn=iso2mesh.meshconn(face,size(node,1));
+newnode=iso2mesh.smoothsurf(node(:,1:3),[],conn,iter,alpha,method,alpha);

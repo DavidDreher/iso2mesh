@@ -35,9 +35,9 @@ else
     error('surfpart only supports triangular and quadrilateral elements');
 end
 
-[elist,front]=advancefront(edges,loopedge);
+[elist,front]=iso2mesh.advancefront(edges,loopedge);
 while(~isempty(front))
-	[elist0,front0]=advancefront(edges,front);
+	[elist0,front0]=iso2mesh.advancefront(edges,front);
 	elist=unique([elist;elist0]);
 	front=front0;
 end

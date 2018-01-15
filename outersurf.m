@@ -18,16 +18,16 @@ function outface=outersurf(node,face)
 
 face=face(:,1:3);
 
-ed=surfedge(face);
+ed=iso2mesh.surfedge(face);
 if(~isempty(ed))
    error('open surface is detected, you have to close it first, consider meshcheckrepair() with meshfix option');
 end
 
-[no,el]=fillsurf(node,face);
+[no,el]=iso2mesh.fillsurf(node,face);
 
-outface=volface(el);
+outface=iso2mesh.volface(el);
 
-[no,outface]=removeisolatednode(no,outface);
+[no,outface]=iso2mesh.removeisolatednode(no,outface);
 maxfacenode=max(outface(:));
 
 [I,J]=ismember(round(no(1:maxfacenode,:)*1e10),round(node*1e10),'rows');

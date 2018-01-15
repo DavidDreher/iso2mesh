@@ -18,9 +18,9 @@ function seeds=surfseeds(node,face)
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-fc=finddisconnsurf(face(:,1:3));
+fc=iso2mesh.finddisconnsurf(face(:,1:3));
 len=length(fc);
 seeds=zeros(len,3);
 for i=1:len
-    seeds(i,:)=surfinterior(node,fc{i});
+    seeds(i,:)=iso2mesh.surfinterior(node,fc{i});
 end

@@ -81,7 +81,7 @@ if(ischar(cutat) || (iscell(cutat) && length(cutat)==2 && ischar(cutat{1})))
     end
 elseif(numel(cutat)==9 || numel(cutat)==4)
     if(numel(cutat)==9)
-        [a,b,c,d]=getplanefrom3pt(cutat);
+        [a,b,c,d]=iso2mesh.getplanefrom3pt(cutat);
     else
         [a,b,c,d]=deal(cutat(:));
     end

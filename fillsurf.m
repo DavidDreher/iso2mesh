@@ -17,4 +17,4 @@ function [no,el]=fillsurf(node,face)
 %
 
 ISO2MESH_TETGENOPT='-YY';
-[no,el]=surf2mesh(node,face,[],[],1,1);
+[no,el]=iso2mesh.surf2mesh(node,face,[],[],1,1);

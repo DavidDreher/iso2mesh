@@ -25,7 +25,7 @@ islands={};
 cleanimg=zeros(size(img));
 if(sum(img(:)))
     img=imclose(img, strel('disk',3));
-    islands=bwislands(img);
+    islands=iso2mesh.bwislands(img);
 end
 
 if(length(islands))

@@ -51,25 +51,25 @@ if(nargin>=8)
                                 'volume. If you are certain to run cgalmesher ' ...
                                 'on your data, please set dofix=0 and run this again.' ]);
 		end
-		[node elem,face]=cgalv2m(vol,opt,maxvol);
+		[node elem,face]=iso2mesh.cgalv2m(vol,opt,maxvol);
 		return;
 	end
 end
 
 %first, convert the binary volume into isosurfaces
 if(nargin==8)
-	[no,el,regions,holes]=vol2surf(img,ix,iy,iz,opt,dofix,method);
+	[no,el,regions,holes]=iso2mesh.vol2surf(img,ix,iy,iz,opt,dofix,method);
 elseif(nargin==9)
-	[no,el,regions,holes]=vol2surf(img,ix,iy,iz,opt,dofix,method,isovalues);
+	[no,el,regions,holes]=iso2mesh.vol2surf(img,ix,iy,iz,opt,dofix,method,isovalues);
 else
-        [no,el,regions,holes]=vol2surf(img,ix,iy,iz,opt,dofix,'cgalsurf');
+        [no,el,regions,holes]=iso2mesh.vol2surf(img,ix,iy,iz,opt,dofix,'cgalsurf');
 end
 %then, create volumetric mesh from the surface mesh
 if(nargin>=8)
    if(strcmp(method,'cgalpoly'))
-	[node,elem,face]=cgals2m(no(:,1:3),el(:,1:3),opt,maxvol);
+	[node,elem,face]=iso2mesh.cgals2m(no(:,1:3),el(:,1:3),opt,maxvol);
         return;
    end
 end
 
-[node,elem,face]=surf2mesh(no,el,[],[],1,maxvol,regions,holes);
+[node,elem,face]=iso2mesh.surf2mesh(no,el,[],[],1,maxvol,regions,holes);

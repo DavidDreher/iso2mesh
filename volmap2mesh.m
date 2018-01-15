@@ -19,7 +19,7 @@ function [node,elem,face]=volmap2mesh(img,ix,iy,iz,elemnum,maxvol,thickness,Amat
 % -- this function is part of iso2mesh toolbox (http://iso2mesh.sf.net)
 %
 
-[node,elem,face]=vol2mesh(img,ix,iy,iz,elemnum,maxvol);
+[node,elem,face]=iso2mesh.vol2mesh(img,ix,iy,iz,elemnum,maxvol);
 
 node(:,1:3)=(Amat*node(:,1:3)'+repmat(Bvec(:),1,size(node,1)))';
 

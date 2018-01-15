@@ -88,16 +88,16 @@ if(~isempty(img))
       else
           levelmask=int8(newimg>=isovalues(i));
       end
-      [levelno,levelel]=binsurface(levelmask);
+      [levelno,levelel]=iso2mesh.binsurface(levelmask);
       if(~isempty(levelel))
           if(isstruct(opt) & isfield(opt,'autoregion'))
               if(opt.autoregion)
-                  seeds=surfseeds(levelno,levelel);
+                  seeds=iso2mesh.surfseeds(levelno,levelel);
               else
-                  seeds=surfinterior(levelno,levelel);
+                  seeds=iso2mesh.surfinterior(levelno,levelel);
               end
           else
-              seeds=surfinterior(levelno,levelel);
+              seeds=iso2mesh.surfinterior(levelno,levelel);
           end
           if(~isempty(seeds))
               disp([sprintf('region %d centroid :',i) sprintf('\t%f %f %f\n', seeds')]);
@@ -115,10 +115,10 @@ if(~isempty(img))
 
         if(nargin>=7 & strcmp(method,'simplify'))
 
-          [v0,f0]=binsurface(newimg>=isovalues(i)); % not sure if binsurface works for multi-value arrays
+          [v0,f0]=iso2mesh.binsurface(newimg>=isovalues(i)); % not sure if iso2mesh.binsurface works for multi-value arrays
           % with binsurface, I think the following line is not needed anymore
           %  v0(:,[1 2])=v0(:,[2 1]); % isosurface(V,th) assumes x/y transposed
-          if(dofix)  [v0,f0]=meshcheckrepair(v0,f0);  end  
+          if(dofix)  [v0,f0]=iso2mesh.meshcheckrepair(v0,f0);  end  
 
           if(isstruct(opt) & length(opt)==maxlevel) keepratio=opt(i).keepratio;
           elseif (isstruct(opt) & length(opt)==1) keepratio=opt.keepratio;
@@ -126,12 +126,12 @@ if(~isempty(img))
 
           % first, resample the surface mesh with cgal
           fprintf(1,'resampling surface mesh for level %d...\n',i);
-          [v0,f0]=meshresample(v0,f0,keepratio);
+          [v0,f0]=iso2mesh.meshresample(v0,f0,keepratio);
 
           % iso2mesh is not stable for meshing small islands,remove them (max 3x3x3 voxels)
-          f0=removeisolatedsurf(v0,f0,3);
+          f0=iso2mesh.removeisolatedsurf(v0,f0,3);
 
-          if(dofix) [v0,f0]=meshcheckrepair(v0,f0); end
+          if(dofix) [v0,f0]=iso2mesh.meshcheckrepair(v0,f0); end
 
         elseif(nargin<7 | strcmp(method,'cgalsurf') | strcmp(method,'cgalpoly'))
           if(isstruct(opt) & length(opt)==maxlevel) radbound=opt(i).radbound;
@@ -169,7 +169,7 @@ if(~isempty(img))
 	  end
           perturb=1e-4*abs(max(isovalues));
           if(all(newimg>isovalues(i)-perturb)) perturb=-perturb;  end
-          [v0,f0]=vol2restrictedtri(newimg,isovalues(i)-perturb,regions(i,:),...
+          [v0,f0]=iso2mesh.vol2restrictedtri(newimg,isovalues(i)-perturb,regions(i,:),...
                      sum(newdim.*newdim)*2,30,radbound,distbound,maxsurfnode);
 
 	  if(~isempty(surfside))
@@ -182,9 +182,9 @@ if(~isempty(img))
 
         % if use defines maxsurf=1, take only the largest closed surface
         if(isstruct(opt))
-            if( (isfield(opt,'maxsurf') && length(opt)==1 && opt.maxsurf==1) | ...
-                    (length(opt)==maxlevel && isfield(opt(i),'maxsurf') && opt(i).maxsurf==1))
-                    f0=maxsurf(finddisconnsurf(f0));
+            if( (isfield(opt,'iso2mesh.maxsurf') && length(opt)==1 && opt.iso2mesh.maxsurf==1) | ...
+                    (length(opt)==maxlevel && isfield(opt(i),'iso2mesh.maxsurf') && opt(i).iso2mesh.maxsurf==1))
+                    f0=iso2mesh.maxsurf(iso2mesh.finddisconnsurf(f0));
             end
         end
 

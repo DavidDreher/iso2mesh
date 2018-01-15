@@ -39,7 +39,7 @@ if(len>0 & mod(len,2)~=0)
    error('you must give node and element in pairs');
 end
 
-X=mesheuler(newelem);
+X=iso2mesh.mesheuler(newelem);
 
 if(size(newelem,2)==4)
    if(X>=0)

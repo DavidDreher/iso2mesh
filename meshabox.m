@@ -29,6 +29,6 @@ function [node,face,elem]=meshabox(p0,p1,opt,nodesize)
 if(nargin<4)
    nodesize=1;
 end
-[node,elem,face]=surf2mesh([],[],p0,p1,1,opt,[],[],nodesize);
+[node,elem,face]=iso2mesh.surf2mesh([],[],p0,p1,1,opt,[],[],nodesize);
 elem=elem(:,1:4);
 face=face(:,1:3);

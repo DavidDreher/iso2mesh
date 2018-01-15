@@ -154,15 +154,15 @@ if(~isempty(face))
    hold on;
    if(isempty(selector))
         if(isempty(opt))
-   		h=plotsurf(node,face);
+   		h=iso2mesh.plotsurf(node,face);
 	else
-   		h=plotsurf(node,face,opt{:});
+   		h=iso2mesh.plotsurf(node,face,opt{:});
 	end
    else
     if(iscell(face))
-       cent=meshcentroid(node,face);
+       cent=iso2mesh.meshcentroid(node,face);
     else
-       cent=meshcentroid(node,face(:,1:3));
+       cent=iso2mesh.meshcentroid(node,face(:,1:3));
     end
 	x=cent(:,1);
     y=cent(:,2);
@@ -170,9 +170,9 @@ if(~isempty(face))
     idx=eval(['find(' selector ')']);
     if(~isempty(idx))
         if(iscell(face))
-            h=plotsurf(node,face(idx),opt{:});
+            h=iso2mesh.plotsurf(node,face(idx),opt{:});
         else
-    		h=plotsurf(node,face(idx,:),opt{:});
+    		h=iso2mesh.plotsurf(node,face(idx,:),opt{:});
         end
     else
         warning('no surface to plot');
@@ -184,20 +184,20 @@ if(~isempty(elem))
    hold on;
    if(isempty(selector))
         if(isempty(opt))
-   		h=plottetra(node,elem);
+   		h=iso2mesh.plottetra(node,elem);
 	else
-   		h=plottetra(node,elem,opt{:});
+   		h=iso2mesh.plottetra(node,elem,opt{:});
 	end
    else
-   cent=meshcentroid(node,elem(:,1:4));
+   cent=iso2mesh.meshcentroid(node,elem(:,1:4));
    x=cent(:,1);
    y=cent(:,2);
    z=cent(:,3);
    if(regexp(selector,'='))
       if(size(node,2)==4)
-          [cutpos,cutvalue,facedata]=qmeshcut(elem,node(:,1:3),node(:,4),selector);  
+          [cutpos,cutvalue,facedata]=iso2mesh.qmeshcut(elem,node(:,1:3),node(:,4),selector);  
       elseif(size(node,2)==3)
-          [cutpos,cutvalue,facedata]=qmeshcut(elem,node,node(:,3),selector);
+          [cutpos,cutvalue,facedata]=iso2mesh.qmeshcut(elem,node,node(:,3),selector);
       else
           error('plotmesh can only plot 3D tetrahedral meshes');
       end
@@ -206,9 +206,9 @@ if(~isempty(elem))
       idx=eval(['find(' selector ')']);
       if(~isempty(idx))
 	    if(isempty(opt))
-		h=plottetra(node,elem(idx,:));
+		h=iso2mesh.plottetra(node,elem(idx,:));
 	    else
-		h=plottetra(node,elem(idx,:),opt{:});
+		h=iso2mesh.plottetra(node,elem(idx,:),opt{:});
         end
       else
         warning('no tetrahedral element to plot');

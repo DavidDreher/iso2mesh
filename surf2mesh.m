@@ -30,7 +30,7 @@ function [node,elem,face]=surf2mesh(v,f,p0,p1,keepratio,maxvol,regions,holes,for
 
 fprintf(1,'generating tetrahedral mesh from closed surfaces ...\n');
 
-exesuff=getexeext;
+exesuff=iso2mesh.getexeext;
 if(nargin<10)
    method = 'tetgen';
 end
@@ -44,7 +44,7 @@ end
 % first, resample the surface mesh with cgal
 if(keepratio<1-1e-9 & ~iscell(f))
 	fprintf(1,'resampling surface mesh ...\n');
-	[no,el]=meshresample(v(:,1:3),f(:,1:3),keepratio);
+	[no,el]=iso2mesh.meshresample(v(:,1:3),f(:,1:3),keepratio);
 	el=unique(sort(el,2),'rows');
 
 	% then smooth the resampled surface mesh (Laplace smoothing)
@@ -80,17 +80,17 @@ end
 
 % dump surface mesh to .poly file format
 if(~iscell(el) & ~isempty(no) & ~isempty(el))
-	saveoff(no(:,1:3),el(:,1:3),mwpath('post_vmesh.off'));
+	iso2mesh.saveoff(no(:,1:3),el(:,1:3),iso2mesh.mwpath('post_vmesh.off'));
 end
-deletemeshfile(mwpath('post_vmesh.mtr'));
-savesurfpoly(no,el,holes,regions,p0,p1,mwpath('post_vmesh.poly'),dobbx);
+iso2mesh.deletemeshfile(iso2mesh.mwpath('post_vmesh.mtr'));
+iso2mesh.savesurfpoly(no,el,holes,regions,p0,p1,iso2mesh.mwpath('post_vmesh.poly'),dobbx);
 
 moreopt='';
 if(size(no,2)==4)
    moreopt=[moreopt ' -m '];
 end
 % call tetgen to create volumetric mesh
-deletemeshfile(mwpath('post_vmesh.1.*'));
+iso2mesh.deletemeshfile(iso2mesh.mwpath('post_vmesh.1.*'));
 fprintf(1,'creating volumetric mesh from a surface mesh ...\n');
 
 try
@@ -103,13 +103,13 @@ catch
     end
 end
 if(isempty(cmdopt))
-  system([' "' mcpath(method) exesuff '" -A -q1.414a' num2str(maxvol) ' ' moreopt ' "' mwpath('post_vmesh.poly') '"']);
+  system([' "' iso2mesh.mcpath(method) exesuff '" -A -q1.414a' num2str(maxvol) ' ' moreopt ' "' iso2mesh.mwpath('post_vmesh.poly') '"']);
 else
-  system([' "' mcpath(method) exesuff '" ' cmdopt ' "' mwpath('post_vmesh.poly') '"']);
+  system([' "' iso2mesh.mcpath(method) exesuff '" ' cmdopt ' "' iso2mesh.mwpath('post_vmesh.poly') '"']);
 end
 
 % read in the generated mesh
-[node,elem,face]=readtetgen(mwpath('post_vmesh.1'));
+[node,elem,face]=iso2mesh.readtetgen(iso2mesh.mwpath('post_vmesh.1'));
 
 fprintf(1,'volume mesh generation is complete\n');
 

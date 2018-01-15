@@ -18,12 +18,12 @@ function vol=surfvolume(node,face,option)
 
 face=face(:,1:3);
 
-ed=surfedge(face);
+ed=iso2mesh.surfedge(face);
 if(~isempty(ed))
    error('open surface is detected, you have to close it first, consider meshcheckrepair() with meshfix option');
 end
 
-[no,el]=fillsurf(node,face);
+[no,el]=iso2mesh.fillsurf(node,face);
 
-vol=elemvolume(no,el);
+vol=iso2mesh.elemvolume(no,el);
 vol=sum(vol);
