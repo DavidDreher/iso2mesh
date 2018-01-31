@@ -20,8 +20,8 @@ end
 % this may take a few minutes for a 256x256x256 volume
 fprintf(1,'filling holes in the volumetric images...\n');
 tic
-cleanimg=fillholes3d(logical(head>0),10);
-cleanbrain=fillholes3d(logical(brain>0),10);
+cleanimg=iso2mesh.fillholes3d(logical(head>0),10);
+cleanbrain=iso2mesh.fillholes3d(logical(brain>0),10);
 toc
 
 % add brain image as additional segment
@@ -42,7 +42,7 @@ opt(1).side='lower'; %
 opt(2).side='lower'; %
 
 tic
-[node,elem,face]=vol2mesh(cleanimgfull,1:size(cleanimg,1),1:size(cleanimg,2),1:size(cleanimg,3),opt,100,1);
+[node,elem,face]=iso2mesh.vol2mesh(cleanimgfull,1:size(cleanimg,1),1:size(cleanimg,2),1:size(cleanimg,3),opt,100,1);
 toc
 
 % plot the boundary surface of the generated mesh
@@ -50,4 +50,4 @@ h=slice(cleanimgfull,[],[120],[120 180]);
 set(h,'linestyle','none')
 hold on
 
-plotmesh(node(:,[2 1 3]),face,'facealpha',0.7);
+iso2mesh.plotmesh(node(:,[2 1 3]),face,'facealpha',0.7);

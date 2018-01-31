@@ -20,14 +20,14 @@ plane=[min(node(:,1)) min(node(:,2)) z0
 % run qmeshcut to get the cross-section information at z=mean(node(:,1))
 % use the x-coordinates as the nodal values
 
-[cutpos,cutvalue,facedata]=qmeshcut(elem(:,1:4),node,node(:,1),plane);
+[cutpos,cutvalue,facedata]=iso2mesh.qmeshcut(elem(:,1:4),node,node(:,1),plane);
 
 % plot your results
 
 figure;
 hsurf=trimesh(face(:,1:3),node(:,1),node(:,2),node(:,3),'facecolor','none');
 hold on;
-if(isoctavemesh)
+if(iso2mesh.isoctavemesh)
   hcut=patch('Faces',facedata,'Vertices',cutpos);
 else
   hcut=patch('Faces',facedata,'Vertices',cutpos,'FaceVertexCData',cutvalue,'facecolor','interp');
@@ -37,9 +37,9 @@ axis equal;
 
 % qmeshcut can also cut a surface
 
-[bcutpos,bcutvalue,bcutedges]=qmeshcut(face(:,1:3),node,node(:,1),plane);
-[bcutpos,bcutedges]=removedupnodes(bcutpos,bcutedges);
-bcutloop=extractloops(bcutedges);
+[bcutpos,bcutvalue,bcutedges]=iso2mesh.qmeshcut(face(:,1:3),node,node(:,1),plane);
+[bcutpos,bcutedges]=iso2mesh.removedupnodes(bcutpos,bcutedges);
+bcutloop=iso2mesh.extractloops(bcutedges);
 
 bcutloop(isnan(bcutloop))=[]; % there can be multiple loops, remove the separators
 
@@ -66,14 +66,14 @@ g2=exp(sqrt(-1)*k*r2)./(4*pi*r2);
 g12=g1.*g2;  % this is the sensitivity map
 
 figure
-plotmesh([node log10(abs(g12))],elem,'facealpha',0.5,'linestyle','none'); % plot the mesh
+iso2mesh.plotmesh([node log10(abs(g12))],elem,'facealpha',0.5,'linestyle','none'); % plot the mesh
 
 hold on;
 % cut the mesh at value=-4
-[cutpos,cutvalue,facedata]=qmeshcut(elem(:,1:4),node(:,1:3),log10(abs(g12)),-4); 
+[cutpos,cutvalue,facedata]=iso2mesh.qmeshcut(elem(:,1:4),node(:,1:3),log10(abs(g12)),-4); 
 patch('Vertices',cutpos,'Faces',facedata,'FaceVertexCData',cutvalue,'FaceColor','interp');
 
 % cut the mesh at value=-4.5
-[cutpos,cutvalue,facedata]=qmeshcut(elem(:,1:4),node(:,1:3),log10(abs(g12)),-4.5);
+[cutpos,cutvalue,facedata]=iso2mesh.qmeshcut(elem(:,1:4),node(:,1:3),log10(abs(g12)),-4.5);
 patch('Vertices',cutpos,'Faces',facedata,'FaceVertexCData',cutvalue,'FaceColor','interp');
 

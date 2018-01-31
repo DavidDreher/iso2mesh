@@ -16,7 +16,7 @@ load rat_head.mat
 % A,b are registration matrix and vector, respectively
 %% perform mesh generation
 
-[node,face]=v2s(volimage,0.5,2,'cgalmesh');
+[node,face]=iso2mesh.v2s(volimage,0.5,2,'cgalmesh');
 
 face=face(:,1:3);
 
@@ -28,8 +28,8 @@ colnum=4;
 figure;
 subplot(rownum,colnum,1);
 
-plotmesh(node,face(:,1:3));
-if(~isoctavemesh) 
+iso2mesh.plotmesh(node,face(:,1:3));
+if(~iso2mesh.isoctavemesh) 
 	title({'Laplacian+HC Smoothing Test','no smoothing'}); 
 else
 	title('Laplacian+HC - no smoothing');
@@ -43,9 +43,9 @@ set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])
 
 n1=node;
 for i=1:rownum*colnum-1
-  n1=sms(n1,face(:,1:3),1,0.5); % apply Laplacian+HC mesh smoothing
+  n1=iso2mesh.sms(n1,face(:,1:3),1,0.5); % apply Laplacian+HC mesh smoothing
   subplot(rownum,colnum,i+1);
-  plotmesh(n1,face(:,1:3));
+  iso2mesh.plotmesh(n1,face(:,1:3));
   title(['iter=' num2str(i)]);
   axis equal;
   set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])
@@ -58,8 +58,8 @@ end
 figure;
 subplot(rownum,colnum,1);
 
-plotmesh(node,face(:,1:3));
-if(~isoctavemesh)
+iso2mesh.plotmesh(node,face(:,1:3));
+if(~iso2mesh.isoctavemesh)
         title({'Laplacian Smoothing Test','no smoothing'});
 else
         title('Laplacian - no smoothing');
@@ -67,13 +67,13 @@ end
 axis equal;
 set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])
 
-conn=meshconn(face(:,1:3),size(node,1));
+conn=iso2mesh.meshconn(face(:,1:3),size(node,1));
 
 n1=node;
 for i=1:rownum*colnum-1
-  n1=smoothsurf(n1,[],conn,1,0.5,'laplacian');
+  n1=iso2mesh.smoothsurf(n1,[],conn,1,0.5,'laplacian');
   subplot(rownum,colnum,i+1);
-  plotmesh(n1,face(:,1:3));
+  iso2mesh.plotmesh(n1,face(:,1:3));
   title(['iter=' num2str(i)]);
   axis equal;
   set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])
@@ -87,8 +87,8 @@ end
 figure;
 subplot(rownum,colnum,1);
 
-plotmesh(node,face(:,1:3));
-if(~isoctavemesh)
+iso2mesh.plotmesh(node,face(:,1:3));
+if(~iso2mesh.isoctavemesh)
         title({'Low-pass Smoothing Test','no smoothing'});
 else
         title('Low-pass - no smoothing');
@@ -96,13 +96,13 @@ end
 axis equal;
 set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])
 
-conn=meshconn(face(:,1:3),size(node,1));
+conn=iso2mesh.meshconn(face(:,1:3),size(node,1));
 
 n1=node;
 for i=1:rownum*colnum-1
-  n1=smoothsurf(n1,[],conn,1,0.5,'lowpass');
+  n1=iso2mesh.smoothsurf(n1,[],conn,1,0.5,'lowpass');
   subplot(rownum,colnum,i+1);
-  plotmesh(n1,face(:,1:3));
+  iso2mesh.plotmesh(n1,face(:,1:3));
   title(['iter=' num2str(i)]);
   axis equal;
   set(gca,'xlim',[p0(1),p1(1)],'ylim',[p0(2),p1(2)],'zlim',[p0(3),p1(3)])

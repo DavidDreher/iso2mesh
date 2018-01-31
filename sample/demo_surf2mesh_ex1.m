@@ -14,8 +14,8 @@ load tube_surface.mat
 
 % f and v stores the surface patch faces and nodes
 %% perform mesh generation
-[node,elem,face]=surf2mesh(v,f,[1 1 1],[100 100 100],0.1,25);
+[node,elem,face]=iso2mesh.surf2mesh(v,f,[1 1 1],[100 100 100],0.1,25);
 
 %% visualize the resulting mesh
-plotmesh(node,face(:,1:3));
+iso2mesh.plotmesh(node,face(:,1:3));
 axis equal;
