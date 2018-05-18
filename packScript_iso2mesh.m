@@ -5,4 +5,6 @@
 % git checkout dev_branch
 % git merge master
 
-packagePacker('iso2mesh', {'bin', 'doc', 'sample'}, true, false)
+% overwriteFiles = true;
+% packageTopDirectory = false;
+% packagePacker('../iso2mesh', {'bin', 'doc', 'sample'}, overwriteFiles, packageTopDirectory)

@@ -16,18 +16,18 @@ load rat_head.mat
 % A,b are registration matrix and vector, respectively
 %% perform mesh generation
 
-[node,face]=v2s(volimage,0.5,2,'cgalmesh');
+[node,face]=iso2mesh.v2s(volimage,0.5,2,'cgalmesh');
 
 node=node(:,1:3);
 face=face(:,1:3);
 
-plotmesh(node,face);
+iso2mesh.plotmesh(node,face);
 axis equal
 
-[newno,newfc]=remeshsurf(node,face,1);
+[newno,newfc]=iso2mesh.remeshsurf(node,face,1);
 
-newno=sms(newno,newfc(:,1:3),3,0.5);
+newno=iso2mesh.sms(newno,newfc(:,1:3),3,0.5);
 
 figure;
-plotmesh(newno,newfc(:,1:3));
+iso2mesh.plotmesh(newno,newfc(:,1:3));
 axis equal

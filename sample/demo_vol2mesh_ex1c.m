@@ -21,10 +21,10 @@ load rat_head.mat
 % and tetrahedral mesh in a single run.
 clear opt
 opt.radbound=2;
-[node,elem,face]=v2m(uint8(volimage),0.5,opt,100,'cgalmesh');
+[node,elem,face]=iso2mesh.v2m(uint8(volimage),0.5,opt,100,'cgalmesh');
 
 
 %% visualize the resulting mesh
 
-plotmesh(node,face(:,1:3));
+iso2mesh.plotmesh(node,face(:,1:3));
 axis equal;
